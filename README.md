@@ -21,3 +21,10 @@ Open `index.html` in a browser, or serve this directory with any static web serv
 - All images are local, so the page does not rely on third-party image or font services.
 
 The page includes a live paint-shade visualizer (the chosen shade carries into the quotation), service overviews, rate cards, an itemised quotation builder (print / save as PDF / send on WhatsApp), painter and owner profiles, a three-step process, FAQ, contact details and floating call / WhatsApp buttons.
+
+## Real work photos
+
+`assets/work/` holds optimised project photos (EXIF/location stripped) shown in the **Our work** gallery
+("Finished work" and "Problems we repair"). To add or replace one, drop a JPEG in that folder and edit the
+matching `.work-item` in `index.html`. `assets/photos/hero.jpg` and `story.jpg` fill the hero and story images.
+Make sure the homeowners have agreed to their photos being published.

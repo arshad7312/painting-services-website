@@ -48,3 +48,14 @@ button,a,input,select{outline-offset:4px}
 .painter-card img{background:#e8ecdc}
 @media(max-width:980px){.viz-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.visualizer-section{padding-bottom:70px}.swatches{gap:10px}}
+.work-section{padding:20px 0 96px}.work-tabs{display:inline-flex;gap:6px;padding:5px;background:#e8e9dc;border-radius:999px;margin-bottom:24px}.work-tabs button{border:0;background:transparent;padding:11px 20px;border-radius:999px;font-size:13px;font-weight:700;color:#4d5c50;cursor:pointer}.work-tabs button[aria-selected=true]{background:var(--green);color:#fff}
+.work-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.work-grid[hidden]{display:none}.work-item{margin:0;background:var(--white);border:1px solid var(--line)}.work-open{display:block;width:100%;padding:0;border:0;background:#e8e9dc;cursor:zoom-in;overflow:hidden}.work-open img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .3s}.work-open:hover img{transform:scale(1.04)}.work-item figcaption{padding:12px 14px 14px}.work-item strong{display:block;font:700 14px var(--display)}.work-item figcaption span{display:block;font-size:12px;color:#707a72;margin-top:4px;line-height:1.5}
+.work-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.lightbox{border:0;padding:0;background:transparent;max-width:min(92vw,720px);max-height:92vh;overflow:visible}.lightbox::backdrop{background:#0009}.lightbox img{display:block;max-width:100%;max-height:80vh;margin:auto;border-radius:4px}.lightbox p{color:#fff;text-align:center;font-size:14px;margin:12px 0 0}.lightbox-close{position:absolute;right:-6px;top:-14px;width:38px;height:38px;border-radius:50%;border:0;background:#fff;font-size:16px;cursor:pointer;z-index:2}
+.hero-image,.story-image-wrap>img{object-fit:cover}
+@media(max-width:980px){.work-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:720px){.work-grid{grid-template-columns:repeat(2,1fr);gap:10px}.work-section{padding-bottom:70px}.work-cta .button{width:100%}}
+.hero-image{object-position:50% 18%}.story-image-wrap>img{object-position:50% 30%}
+.work-open img{height:auto;aspect-ratio:4/5}.painter-card img{height:auto}
+.work-cta .button{width:auto}
+.work-cta .button{width:auto}

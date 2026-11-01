@@ -258,3 +258,27 @@ estimateForm.addEventListener('submit', (event) => {
 });
 
 document.querySelector('#year').textContent = String(new Date().getFullYear());
+
+const workTabs = document.querySelectorAll('.work-tabs [role="tab"]');
+workTabs.forEach((tab) => {
+  tab.addEventListener('click', () => {
+    workTabs.forEach((other) => {
+      const active = other === tab;
+      other.setAttribute('aria-selected', String(active));
+      other.tabIndex = active ? 0 : -1;
+      document.getElementById(other.getAttribute('aria-controls')).hidden = !active;
+    });
+  });
+});
+
+const lightbox = document.querySelector('#lightbox');
+document.querySelectorAll('.work-open').forEach((button) => {
+  button.addEventListener('click', () => {
+    lightbox.querySelector('#lightbox-img').src = button.dataset.full;
+    lightbox.querySelector('#lightbox-img').alt = button.dataset.cap;
+    lightbox.querySelector('#lightbox-cap').innerHTML = button.dataset.cap;
+    lightbox.showModal();
+  });
+});
+lightbox.querySelector('.lightbox-close').addEventListener('click', () => lightbox.close());
+lightbox.addEventListener('click', (event) => { if (event.target === lightbox) lightbox.close(); });
