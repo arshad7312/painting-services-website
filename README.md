@@ -8,9 +8,12 @@ Open `index.html` in a browser, or serve this directory with any static web serv
 
 ## Before launch
 
-- Replace the Hue & Home name, copy, service details, and imagery with the customer's actual brand and approved claims.
-- Connect the consultation form in `script.js` to a real lead endpoint or CRM. The current form validates input and displays a demo confirmation; it does not transmit or store enquiries.
-- Confirm service areas, consultation terms, privacy wording, and phone-number validation for the business.
-- The room illustrations are original local SVG assets, so the page does not rely on third-party image or font services.
+- The business name "Hue & Home" is a placeholder; replace it with the real brand name.
+- **Prices:** all labour rates, paint prices per litre, coverage and add-on rates are indicative placeholders in the `SERVICES` object at the top of `script.js`. Update them to the real price list; the rate cards and quotation recalculate automatically.
+- **Painters:** `assets/painter-1.svg` to `painter-3.svg` are illustrations. Replace them with real, consented team photos (change the `src` in `index.html`).
+- **Leads:** the quotation and consultation forms open WhatsApp (8521962085) with the details prefilled; nothing is stored on a server. Add a backend or CRM if you need lead records.
+- Confirm GST applicability (set to 18% by `GST_RATE`), service areas, and privacy wording.
+- Paint brand names are shown only to identify the products offered.
+- All images are local, so the page does not rely on third-party image or font services.
 
-The page includes service overviews, a three-step process, an accessible FAQ, responsive navigation, and a consultation form.
+The page includes service overviews, rate cards, an itemised quotation builder (print / save as PDF / send on WhatsApp), painter and owner profiles, a three-step process, FAQ, contact details and floating call / WhatsApp buttons.
