@@ -10,8 +10,8 @@
   <meta property="og:type" content="website">
   <title>Hue &amp; Home | Home painting, made thoughtful</title>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"HousePainter","name":"Hue & Home","founder":{"@type":"Person","name":"Shabihul Quamar"},"description":"Home painting services in Bengaluru with 10+ years of experience. 35% advance to book.","telephone":"+918521962085","areaServed":"Bengaluru","address":{"@type":"PostalAddress","streetAddress":"H.No 1623, Ramareddy Building, Ground & 1st Floor, Cross Gayathri School, Vijinapura","addressLocality":"Bangalore","addressRegion":"Karnataka","postalCode":"560016","addressCountry":"IN"}}</script>
-  <link rel="stylesheet" href="styles.css?v=5">
-  <script src="script.js?v=5" defer></script>
+  <link rel="stylesheet" href="styles.css?v=6">
+  <script src="script.js?v=6" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -138,8 +138,12 @@
           <p class="viz-caption"><span class="viz-dot" id="viz-dot"></span><strong id="viz-name">Warm Ivory</strong><small>On-screen colours are a guide; shades vary slightly by screen and paint brand.</small></p>
         </div>
         <div class="viz-panel">
-          <h3>Pick a shade</h3>
+          <h3>Pick a brand &amp; shade</h3>
+          <div class="shade-brands" id="shade-brands" role="tablist" aria-label="Paint brand"></div>
+          <input class="shade-search" id="shade-search" type="search" placeholder="Search shades (e.g. sage, navy)" aria-label="Search shades">
+          <div class="shade-families" id="shade-families" role="group" aria-label="Colour family"></div>
           <div class="swatches" id="swatches" role="group" aria-label="Wall shades"></div>
+          <p class="shade-note">Showing the closest <strong id="shade-brand-name">Asian Paints</strong> match for each colour. The dealer machine-tints it to the brand’s exact shade code.</p>
           <div class="tins" aria-label="Paint tins in your shade">
             <svg viewBox="0 0 120 130" class="tin" role="img" aria-label="Small paint tin"><ellipse cx="60" cy="112" rx="42" ry="10" fill="#000" opacity=".15"/><rect x="22" y="34" width="76" height="76" rx="6" fill="#D9DDD6"/><rect x="22" y="52" width="76" height="40" class="tin-label"/><ellipse cx="60" cy="34" rx="38" ry="9" fill="#EDEFEA"/><path d="M34 34c0-24 52-24 52 0" fill="none" stroke="#8D938A" stroke-width="3"/><text x="60" y="76" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">4 L</text></svg>
             <svg viewBox="0 0 120 150" class="tin tin-big" role="img" aria-label="Large paint bucket"><ellipse cx="60" cy="138" rx="46" ry="10" fill="#000" opacity=".15"/><path d="M16 38h88l-8 98H24z" fill="#D9DDD6"/><path d="M20 62h80l-3 52H23z" class="tin-label"/><ellipse cx="60" cy="38" rx="44" ry="10" fill="#EDEFEA"/><path d="M22 38c0-34 76-34 76 0" fill="none" stroke="#8D938A" stroke-width="3"/><text x="60" y="94" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">20 L</text></svg>

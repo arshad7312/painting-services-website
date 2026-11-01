@@ -26,14 +26,27 @@ document.querySelectorAll('img[data-photo]').forEach((img) => {
   probe.src = img.dataset.photo;
 });
 
-const SHADES = [
-  ['Warm Ivory', '#F1E6D0'], ['Soft Grey', '#D2D3CF'], ['Sage Mist', '#B7C4A5'], ['Sky Whisper', '#BFD5DE'],
-  ['Blush Clay', '#E3B9A6'], ['Lavender Haze', '#C9BEDB'], ['Mustard Glow', '#E0B04A'], ['Terracotta', '#C9724D'],
-  ['Olive Grove', '#8A8F55'], ['Ocean Teal', '#3F7F86'], ['Deep Navy', '#2F4560'], ['Charcoal Slate', '#4A4F55']
-];
-let selectedShade = SHADES[0][0];
+const SHADE_BRANDS = ['Asian Paints', 'Berger', 'Birla Opus', 'Nerolac', 'Dulux'];
+const SHADE_FAMILIES = {
+  Whites: [['Pure White', '#F8F6F0'], ['Warm Ivory', '#F1E6D0'], ['Pearl', '#EEE9DF'], ['Chalk', '#F3F1EA'], ['Cotton', '#FAF3E6'], ['Vanilla Cream', '#F3E7C9']],
+  Neutrals: [['Soft Grey', '#D2D3CF'], ['Stone', '#C8C1B4'], ['Dove Grey', '#B9BBBA'], ['Greige', '#CDC2B2'], ['Charcoal Slate', '#4A4F55'], ['Mocha', '#9A7B64']],
+  Yellows: [['Butter', '#F5E39A'], ['Lemon Zest', '#F2DC6B'], ['Saffron', '#E8B23E'], ['Mustard Glow', '#E0B04A'], ['Honey', '#D9A441'], ['Sand Dune', '#E3CFA2']],
+  'Peach & Pink': [['Blush Clay', '#E3B9A6'], ['Peach Cream', '#F4CFB0'], ['Rose Petal', '#E8B4B8'], ['Coral', '#E58E7A'], ['Salmon', '#F0A07F'], ['Terracotta', '#C9724D']],
+  Greens: [['Sage Mist', '#B7C4A5'], ['Mint', '#C6E2CF'], ['Pistachio', '#C8D99A'], ['Olive Grove', '#8A8F55'], ['Forest', '#3F6B4F'], ['Fern', '#6E9A62']],
+  Blues: [['Sky Whisper', '#BFD5DE'], ['Powder Blue', '#B9D3E8'], ['Aqua', '#9FD3D0'], ['Ocean Teal', '#3F7F86'], ['Cobalt', '#3C63A8'], ['Deep Navy', '#2F4560']],
+  'Purples & Reds': [['Lavender Haze', '#C9BEDB'], ['Lilac', '#C8B6DE'], ['Plum', '#7A4B6B'], ['Brick Red', '#A5493B'], ['Maroon', '#7A2F35'], ['Wine', '#5E2A3C']]
+};
+const SHADES = Object.entries(SHADE_FAMILIES).flatMap(([family, list]) => list.map(([name, hex]) => ({ name, hex, family })));
+let selectedShade = SHADES[0].name;
+let selectedShadeBrand = SHADE_BRANDS[0];
+let activeFamily = 'All';
+let shadeQuery = '';
 const roomSvg = document.querySelector('#room-svg');
 const swatchBox = document.querySelector('#swatches');
+const brandBox = document.querySelector('#shade-brands');
+const familyBox = document.querySelector('#shade-families');
+const shadeSearch = document.querySelector('#shade-search');
+const shadeLabel = () => `${selectedShadeBrand} – ${selectedShade}`;
 
 function applyShade(name, hex) {
   selectedShade = name;
@@ -41,16 +54,44 @@ function applyShade(name, hex) {
   document.querySelectorAll('.tin-label').forEach((label) => label.setAttribute('fill', hex));
   document.querySelector('#viz-dot').style.background = hex;
   document.querySelector('#viz-name').textContent = name;
-  document.querySelector('#tin-shade').textContent = name;
+  document.querySelector('#tin-shade').textContent = shadeLabel();
   swatchBox.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.name === name)));
 }
 
-swatchBox.innerHTML = SHADES.map(([name, hex]) => `<button type="button" class="swatch" data-name="${name}" data-hex="${hex}" style="background:${hex}" aria-label="${name}" aria-pressed="false" title="${name}"></button>`).join('');
-swatchBox.addEventListener('click', (event) => {
-  const button = event.target.closest('.swatch');
-  if (button) applyShade(button.dataset.name, button.dataset.hex);
+function renderShades() {
+  const query = shadeQuery.trim().toLowerCase();
+  const list = SHADES.filter((shade) => (activeFamily === 'All' || shade.family === activeFamily) && (!query || shade.name.toLowerCase().includes(query)));
+  swatchBox.innerHTML = list.length
+    ? list.map((s) => `<button type="button" class="swatch-card" data-name="${s.name}" data-hex="${s.hex}" aria-pressed="${s.name === selectedShade}"><span class="swatch" style="background:${s.hex}"></span><span class="swatch-name">${s.name}</span></button>`).join('')
+    : '<p class="swatch-empty">No shade found. Try another name or family.</p>';
+}
+
+brandBox.innerHTML = SHADE_BRANDS.map((brand, i) => `<button type="button" role="tab" aria-selected="${i === 0}" data-brand="${brand}">${brand}</button>`).join('');
+familyBox.innerHTML = ['All', ...Object.keys(SHADE_FAMILIES)].map((family, i) => `<button type="button" aria-pressed="${i === 0}" data-family="${family}">${family}</button>`).join('');
+brandBox.addEventListener('click', (event) => {
+  const button = event.target.closest('button');
+  if (!button) return;
+  selectedShadeBrand = button.dataset.brand;
+  brandBox.querySelectorAll('button').forEach((other) => other.setAttribute('aria-selected', String(other === button)));
+  document.querySelector('#shade-brand-name').textContent = selectedShadeBrand;
+  document.querySelector('#tin-shade').textContent = shadeLabel();
 });
-applyShade(...SHADES[0]);
+familyBox.addEventListener('click', (event) => {
+  const button = event.target.closest('button');
+  if (!button) return;
+  activeFamily = button.dataset.family;
+  familyBox.querySelectorAll('button').forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+  renderShades();
+});
+shadeSearch.addEventListener('input', () => { shadeQuery = shadeSearch.value; renderShades(); });
+swatchBox.addEventListener('click', (event) => {
+  const button = event.target.closest('.swatch-card');
+  if (!button) return;
+  applyShade(button.dataset.name, button.dataset.hex);
+  swatchBox.querySelectorAll('.swatch-card').forEach((card) => card.setAttribute('aria-pressed', String(card === button)));
+});
+renderShades();
+applyShade(SHADES[0].name, SHADES[0].hex);
 
 const WHATSAPP_NUMBER = '918521962085';
 const GST_RATE = 0.18;
@@ -70,7 +111,9 @@ const SERVICES = {
       { brand: 'Asian Paints', name: 'Royale Luxury Emulsion', tier: 'Luxury', price: 640, coverage: 140 },
       { brand: 'Berger', name: 'Easy Clean', tier: 'Premium', price: 400, coverage: 130 },
       { brand: 'Berger', name: 'Silk', tier: 'Luxury', price: 600, coverage: 140 },
-      { brand: 'Nerolac', name: 'Impressions', tier: 'Premium', price: 450, coverage: 130 }
+      { brand: 'Nerolac', name: 'Impressions', tier: 'Premium', price: 450, coverage: 130 },
+      { brand: 'Birla Opus', name: 'One Pure Elegance', tier: 'Luxury', price: 620, coverage: 140 },
+      { brand: 'Dulux', name: 'Velvet Touch', tier: 'Luxury', price: 650, coverage: 140 }
     ],
     addons: [
       { id: 'putty', label: 'Wall putty (2 coats)', rate: 7.5, basis: 'wall' },
@@ -206,7 +249,7 @@ function renderQuote() {
 
   quoteSheet.innerHTML = `
     <header class="quote-head"><div><p class="card-kicker">Quotation</p><h3>Hue &amp; Home</h3><p>Owner: Shabihul Quamar<br>H.No 1623, Ramareddy Building, Ground &amp; 1st Floor, Cross Gayathri School, Vijinapura, North Bangalore, Karnataka 560016<br>Call / WhatsApp: 8521962085</p></div><dl><div><dt>Quote no.</dt><dd>${quoteNo}</dd></div><div><dt>Date</dt><dd>${dateText}</dd></div><div><dt>Valid for</dt><dd>7 days</dd></div></dl></header>
-    <p class="quote-for"><strong>Wall shade:</strong> ${escapeHtml(selectedShade)}<br><strong>Prepared for:</strong> ${name ? escapeHtml(name) : 'Customer'}${phone ? ` · ${escapeHtml(phone)}` : ''}</p>
+    <p class="quote-for"><strong>Wall shade:</strong> ${escapeHtml(shadeLabel())}<br><strong>Prepared for:</strong> ${name ? escapeHtml(name) : 'Customer'}${phone ? ` · ${escapeHtml(phone)}` : ''}</p>
     <div class="quote-table-wrap"><table><thead><tr><th>Item</th><th>Basis</th><th>Amount</th></tr></thead><tbody>
       ${quote.lines.map((line) => `<tr><td>${escapeHtml(line.item)}</td><td>${escapeHtml(line.detail)}</td><td>${inr.format(line.amount)}</td></tr>`).join('')}
     </tbody><tfoot>
@@ -225,7 +268,7 @@ function renderQuote() {
     phone && `Mobile: ${phone}`,
     `Service: ${quote.service.label}`,
     `Area: ${quote.area} sq ft (${quote.condition === 'fresh' ? 'fresh' : 'repaint'})`,
-    `Shade: ${selectedShade}`,
+    `Shade: ${shadeLabel()}`,
     `Paint: ${quote.product.brand} ${quote.product.name}, ${quote.coats} coats (${quote.litres} L)`,
     `Estimated total (incl. GST): ${inr.format(quote.total)}`,
     `Advance (35%): ${inr.format(quote.advance)}`
