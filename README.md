@@ -33,3 +33,9 @@ Make sure the homeowners have agreed to their photos being published.
 
 The site states "10+ years of experience" and a **35% advance** (balance after completion). The advance rate is
 `ADVANCE_RATE` in `script.js`; the wording also appears in the hero, promise bar, owner card, FAQ and quote sheet.
+
+## Shade catalogue
+
+`SHADE_BRANDS` and `SHADE_FAMILIES` in `script.js` drive the brand/family/search shade picker. The colour values are
+approximate on-screen matches, not official brand codes; the dealer tints to the brand's exact shade. To show official
+names or codes, edit that list. Birla Opus and Dulux paint prices in `SERVICES` are placeholders.
