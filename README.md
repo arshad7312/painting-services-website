@@ -28,3 +28,8 @@ The page includes a live paint-shade visualizer (the chosen shade carries into t
 ("Finished work" and "Problems we repair"). To add or replace one, drop a JPEG in that folder and edit the
 matching `.work-item` in `index.html`. `assets/photos/hero.jpg` and `story.jpg` fill the hero and story images.
 Make sure the homeowners have agreed to their photos being published.
+
+## Payment terms and experience
+
+The site states "10+ years of experience" and a **35% advance** (balance after completion). The advance rate is
+`ADVANCE_RATE` in `script.js`; the wording also appears in the hero, promise bar, owner card, FAQ and quote sheet.

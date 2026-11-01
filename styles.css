@@ -59,3 +59,5 @@ button,a,input,select{outline-offset:4px}
 .work-open img{height:auto;aspect-ratio:4/5}.painter-card img{height:auto}
 .work-cta .button{width:auto}
 .work-cta .button{width:auto}
+
+.work-tabs{display:flex;flex-wrap:wrap;width:fit-content;max-width:100%;border-radius:24px}.work-tabs button{padding:10px 16px}

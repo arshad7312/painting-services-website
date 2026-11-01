@@ -54,6 +54,7 @@ applyShade(...SHADES[0]);
 
 const WHATSAPP_NUMBER = '918521962085';
 const GST_RATE = 0.18;
+const ADVANCE_RATE = 0.35;
 
 // Indicative rates in INR. Owner: update these numbers to match your real price list.
 const SERVICES = {
@@ -177,7 +178,9 @@ function buildQuote() {
 
   const subtotal = lines.reduce((sum, line) => sum + line.amount, 0);
   const gst = Math.round(subtotal * GST_RATE);
-  return { service, product, area, wallArea, ceilingArea, litres, coats, condition, lines, subtotal, gst, total: subtotal + gst };
+  const total = subtotal + gst;
+  const advance = Math.round(total * ADVANCE_RATE);
+  return { service, product, area, wallArea, ceilingArea, litres, coats, condition, lines, subtotal, gst, total, advance, balance: total - advance };
 }
 
 function renderQuote() {
@@ -210,8 +213,10 @@ function renderQuote() {
       <tr><td colspan="2">Subtotal</td><td>${inr.format(quote.subtotal)}</td></tr>
       <tr><td colspan="2">GST @ 18%</td><td>${inr.format(quote.gst)}</td></tr>
       <tr class="grand"><td colspan="2">Estimated total</td><td>${inr.format(quote.total)}</td></tr>
+      <tr><td colspan="2">Advance to confirm booking (35%)</td><td>${inr.format(quote.advance)}</td></tr>
+      <tr><td colspan="2">Balance after completion</td><td>${inr.format(quote.balance)}</td></tr>
     </tfoot></table></div>
-    <p class="fine-print">This is an indicative estimate based on the area you entered. The final quotation is confirmed after a site visit and measurement. Paint prices follow the dealer rate on the day of purchase.</p>`;
+    <p class="fine-print"><strong>Payment terms:</strong> 35% advance to confirm the booking; balance after the work is completed. This is an indicative estimate based on the area you entered. The final quotation is confirmed after a site visit and measurement. Paint prices follow the dealer rate on the day of purchase.</p>`;
 
   const message = [
     'Hi Shabihul, I would like to book a painting service.',
@@ -222,7 +227,8 @@ function renderQuote() {
     `Area: ${quote.area} sq ft (${quote.condition === 'fresh' ? 'fresh' : 'repaint'})`,
     `Shade: ${selectedShade}`,
     `Paint: ${quote.product.brand} ${quote.product.name}, ${quote.coats} coats (${quote.litres} L)`,
-    `Estimated total (incl. GST): ${inr.format(quote.total)}`
+    `Estimated total (incl. GST): ${inr.format(quote.total)}`,
+    `Advance (35%): ${inr.format(quote.advance)}`
   ].filter(Boolean).join('\n');
   document.querySelector('#q-whatsapp').href = whatsappLink(message);
 
