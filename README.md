@@ -39,3 +39,7 @@ The site states "10+ years of experience" and a **35% advance** (balance after c
 `SHADE_BRANDS` and `SHADE_FAMILIES` in `script.js` drive the brand/family/search shade picker. The colour values are
 approximate on-screen matches, not official brand codes; the dealer tints to the brand's exact shade. To show official
 names or codes, edit that list. Birla Opus and Dulux paint prices in `SERVICES` are placeholders.
+
+## SEO
+
+`index.html` carries the title, description, canonical URL, Open Graph/Twitter tags, and JSON-LD (LocalBusiness, WebSite and FAQPage generated from the visible FAQs). `robots.txt` and `sitemap.xml` use the GitHub Pages URL; if you add a custom domain, replace `https://arshad7312.github.io/painting-services-website/` in those files and in `index.html`. Keep the FAQ JSON-LD in sync with the visible FAQ text. After launch, add the site to Google Search Console and create a Google Business Profile.
