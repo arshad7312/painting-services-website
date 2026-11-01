@@ -24,6 +24,7 @@
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation"><span></span><span></span></button>
     <nav class="main-nav" id="main-nav" aria-label="Main navigation">
       <a href="#services">Services</a>
+      <a href="#colours">Colours</a>
       <a href="#rates">Rates</a>
       <a href="#team">Our painters</a>
       <a href="#how-it-works">How it works</a>
@@ -48,7 +49,7 @@
         </div>
       </div>
       <div class="hero-visual">
-        <img class="hero-image" src="assets/living-room.svg" width="900" height="1100" alt="Illustration of a warm, sunlit living room with soft neutral walls and comfortable furniture" fetchpriority="high">
+        <img class="hero-image" data-photo="assets/photos/hero.jpg" src="assets/living-room.svg" width="900" height="1100" alt="Illustration of a warm, sunlit living room with soft neutral walls and comfortable furniture" fetchpriority="high">
         <div class="image-shade"></div>
         <div class="hero-caption"><span class="caption-kicker">A little more</span><strong>you, in every room.</strong></div>
         <div class="colour-note"><span class="colour-swatch" aria-hidden="true"></span><span><strong>Colour, considered.</strong><small>Find the feeling before the finish.</small></span><span class="note-spark" aria-hidden="true">✳</span></div>
@@ -83,6 +84,47 @@
           <div class="service-art art-detail" role="img" aria-label="A close-up of paint colour samples"><span class="art-label">03 / The finishing touch</span><span class="sample sample-one"></span><span class="sample sample-two"></span><span class="sample sample-three"></span><span class="sample sample-four"></span></div>
           <div class="service-content"><div><p class="card-kicker">The little details</p><h3>Wood &amp; metal</h3></div><a class="round-link" href="#estimate" aria-label="Get an estimate for wood and metal painting">↗</a><p>Doors, grills and railings refreshed with finishes made for everyday life.</p></div>
         </article>
+      </div>
+    </section>
+
+    <section class="visualizer-section section-wrap" id="colours" aria-labelledby="colours-title">
+      <div class="section-heading"><div><p class="eyebrow">Paint &amp; colour</p><h2 id="colours-title">See the colour <span>before you paint.</span></h2></div><p>Tap a shade to repaint the room instantly. Happy with it? Add the shade to your quotation in one tap.</p></div>
+      <div class="viz-grid">
+        <div class="viz-stage">
+          <svg id="room-svg" viewBox="0 0 800 520" role="img" aria-label="Living room preview showing the selected wall colour">
+            <rect width="800" height="380" class="viz-wall"/>
+            <rect width="800" height="380" fill="url(#viz-light)"/>
+            <defs><linearGradient id="viz-light" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient></defs>
+            <rect y="380" width="800" height="140" fill="#B98963"/>
+            <rect y="366" width="800" height="18" fill="#F4EEE2"/>
+            <rect x="470" y="60" width="250" height="260" fill="#F7F1E4"/>
+            <rect x="484" y="74" width="222" height="232" fill="#BFD6DA"/>
+            <path d="M484 250c40-40 70-30 100 0 30-50 70-44 122 6v50H484z" fill="#8FAE8A"/>
+            <path d="M595 74h12v232h-12zM484 186h222v12H484z" fill="#F7F1E4"/>
+            <rect x="90" y="90" width="170" height="120" fill="#F7F1E4"/>
+            <rect x="102" y="102" width="146" height="96" fill="#E9DDC4"/>
+            <circle cx="175" cy="150" r="26" fill="#D79B6C"/>
+            <path d="M102 198c34-34 56-26 78-2 20-30 44-24 68 6v0H102z" fill="#9BAE8F"/>
+            <rect x="60" y="300" width="420" height="120" rx="26" fill="#6B7B62"/>
+            <rect x="80" y="270" width="380" height="90" rx="30" fill="#8A997F"/>
+            <rect x="170" y="300" width="70" height="60" rx="14" fill="#D7A27A"/>
+            <rect x="80" y="418" width="14" height="40" fill="#5B4A3A"/><rect x="446" y="418" width="14" height="40" fill="#5B4A3A"/>
+            <ellipse cx="560" cy="470" rx="190" ry="26" fill="#000" opacity=".12"/>
+            <rect x="600" y="410" width="110" height="14" fill="#7B5A3E"/><rect x="620" y="424" width="10" height="60" fill="#7B5A3E"/><rect x="680" y="424" width="10" height="60" fill="#7B5A3E"/>
+            <path d="M740 400c-14-40-8-70 8-96 14 34 14 66-8 96z" fill="#5E7F58"/><rect x="728" y="400" width="26" height="46" fill="#C98E66"/>
+          </svg>
+          <p class="viz-caption"><span class="viz-dot" id="viz-dot"></span><strong id="viz-name">Warm Ivory</strong><small>On-screen colours are a guide; shades vary slightly by screen and paint brand.</small></p>
+        </div>
+        <div class="viz-panel">
+          <h3>Pick a shade</h3>
+          <div class="swatches" id="swatches" role="group" aria-label="Wall shades"></div>
+          <div class="tins" aria-label="Paint tins in your shade">
+            <svg viewBox="0 0 120 130" class="tin" role="img" aria-label="Small paint tin"><ellipse cx="60" cy="112" rx="42" ry="10" fill="#000" opacity=".15"/><rect x="22" y="34" width="76" height="76" rx="6" fill="#D9DDD6"/><rect x="22" y="52" width="76" height="40" class="tin-label"/><ellipse cx="60" cy="34" rx="38" ry="9" fill="#EDEFEA"/><path d="M34 34c0-24 52-24 52 0" fill="none" stroke="#8D938A" stroke-width="3"/><text x="60" y="76" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">4 L</text></svg>
+            <svg viewBox="0 0 120 150" class="tin tin-big" role="img" aria-label="Large paint bucket"><ellipse cx="60" cy="138" rx="46" ry="10" fill="#000" opacity=".15"/><path d="M16 38h88l-8 98H24z" fill="#D9DDD6"/><path d="M20 62h80l-3 52H23z" class="tin-label"/><ellipse cx="60" cy="38" rx="44" ry="10" fill="#EDEFEA"/><path d="M22 38c0-34 76-34 76 0" fill="none" stroke="#8D938A" stroke-width="3"/><text x="60" y="94" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">20 L</text></svg>
+            <div class="tin-text"><strong id="tin-shade">Warm Ivory</strong><span>Matched to your chosen brand and finish at the dealer.</span></div>
+          </div>
+          <a class="button button-dark" id="use-shade" href="#quote">Use this shade in my quote <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
     </section>
 
@@ -121,15 +163,15 @@
     <section class="team-section section-wrap" id="team" aria-labelledby="team-title">
       <div class="section-heading"><div><p class="eyebrow">The people behind the finish</p><h2 id="team-title">Trained painters, <span>in uniform.</span></h2></div><p>Our crews arrive on time, protect your furniture and leave the site clean.</p></div>
       <div class="team-grid">
-        <figure class="painter-card"><img src="assets/painter-1.svg" width="400" height="480" alt="Illustration of a painter in a yellow helmet holding a paint roller" loading="lazy"><figcaption><strong>Wall &amp; ceiling painters</strong><span>Putty, primer and smooth emulsion finishes</span></figcaption></figure>
-        <figure class="painter-card"><img src="assets/painter-2.svg" width="400" height="480" alt="Illustration of a senior painter in a white cap holding a paintbrush" loading="lazy"><figcaption><strong>Texture &amp; detail specialists</strong><span>Edges, trims and decorative finishes</span></figcaption></figure>
-        <figure class="painter-card"><img src="assets/painter-3.svg" width="400" height="480" alt="Illustration of a painter in an orange helmet carrying a paint bucket" loading="lazy"><figcaption><strong>Exterior &amp; enamel crew</strong><span>Weather-ready exteriors, doors and grills</span></figcaption></figure>
+        <figure class="painter-card"><img data-photo="assets/team/painter-1.jpg" src="assets/painter-1.svg" width="400" height="480" alt="Illustration of a painter in a yellow helmet holding a paint roller" loading="lazy"><figcaption><strong>Wall &amp; ceiling painters</strong><span>Putty, primer and smooth emulsion finishes</span></figcaption></figure>
+        <figure class="painter-card"><img data-photo="assets/team/painter-2.jpg" src="assets/painter-2.svg" width="400" height="480" alt="Illustration of a senior painter in a white cap holding a paintbrush" loading="lazy"><figcaption><strong>Texture &amp; detail specialists</strong><span>Edges, trims and decorative finishes</span></figcaption></figure>
+        <figure class="painter-card"><img data-photo="assets/team/painter-3.jpg" src="assets/painter-3.svg" width="400" height="480" alt="Illustration of a painter in an orange helmet carrying a paint bucket" loading="lazy"><figcaption><strong>Exterior &amp; enamel crew</strong><span>Weather-ready exteriors, doors and grills</span></figcaption></figure>
         <aside class="owner-card" aria-label="About the owner"><span class="owner-initials" aria-hidden="true">SQ</span><p class="card-kicker">Founder &amp; Owner</p><h3>Shabihul Quamar</h3><p>Every project is personally supervised, from the first site visit to the final walk-through.</p><div class="owner-links"><a href="tel:+918521962085">Call 8521962085</a><a href="https://wa.me/918521962085" target="_blank" rel="noopener">WhatsApp</a></div></aside>
       </div>
     </section>
 
     <section class="story-section" id="why-us" aria-labelledby="story-title">
-      <div class="story-image-wrap"><img src="assets/quiet-room.svg" width="1000" height="800" alt="Illustration of a calm, thoughtfully painted home interior" loading="lazy"><div class="story-stamp"><span>Good work.</span><strong>Good feeling.</strong><span>From start to finish.</span></div></div>
+      <div class="story-image-wrap"><img data-photo="assets/photos/story.jpg" src="assets/quiet-room.svg" width="1000" height="800" alt="Illustration of a calm, thoughtfully painted home interior" loading="lazy"><div class="story-stamp"><span>Good work.</span><strong>Good feeling.</strong><span>From start to finish.</span></div></div>
       <div class="story-copy"><p class="eyebrow">The Hue &amp; Home difference</p><h2 id="story-title">The best part should be <span>coming back in.</span></h2><p class="story-lede">A great paint job is about more than the shade on the wall. It’s how you feel while the work is happening — and when it’s done.</p>
         <div class="difference-list">
           <article><span class="list-number">01</span><div><h3>We start by listening</h3><p>Your home, your schedule, your ideas. First, a real conversation and a colour consultation that’s all about you.</p></div></article>

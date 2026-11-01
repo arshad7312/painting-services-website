@@ -18,6 +18,40 @@ mainNav.querySelectorAll('a').forEach((link) => {
   });
 });
 
+
+// Real photos: drop files at the data-photo paths and they replace the illustrations automatically.
+document.querySelectorAll('img[data-photo]').forEach((img) => {
+  const probe = new Image();
+  probe.onload = () => { img.src = probe.src; img.alt = img.dataset.alt || 'Photo of our painting team at work'; };
+  probe.src = img.dataset.photo;
+});
+
+const SHADES = [
+  ['Warm Ivory', '#F1E6D0'], ['Soft Grey', '#D2D3CF'], ['Sage Mist', '#B7C4A5'], ['Sky Whisper', '#BFD5DE'],
+  ['Blush Clay', '#E3B9A6'], ['Lavender Haze', '#C9BEDB'], ['Mustard Glow', '#E0B04A'], ['Terracotta', '#C9724D'],
+  ['Olive Grove', '#8A8F55'], ['Ocean Teal', '#3F7F86'], ['Deep Navy', '#2F4560'], ['Charcoal Slate', '#4A4F55']
+];
+let selectedShade = SHADES[0][0];
+const roomSvg = document.querySelector('#room-svg');
+const swatchBox = document.querySelector('#swatches');
+
+function applyShade(name, hex) {
+  selectedShade = name;
+  roomSvg.querySelectorAll('.viz-wall').forEach((wall) => wall.setAttribute('fill', hex));
+  document.querySelectorAll('.tin-label').forEach((label) => label.setAttribute('fill', hex));
+  document.querySelector('#viz-dot').style.background = hex;
+  document.querySelector('#viz-name').textContent = name;
+  document.querySelector('#tin-shade').textContent = name;
+  swatchBox.querySelectorAll('button').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.name === name)));
+}
+
+swatchBox.innerHTML = SHADES.map(([name, hex]) => `<button type="button" class="swatch" data-name="${name}" data-hex="${hex}" style="background:${hex}" aria-label="${name}" aria-pressed="false" title="${name}"></button>`).join('');
+swatchBox.addEventListener('click', (event) => {
+  const button = event.target.closest('.swatch');
+  if (button) applyShade(button.dataset.name, button.dataset.hex);
+});
+applyShade(...SHADES[0]);
+
 const WHATSAPP_NUMBER = '918521962085';
 const GST_RATE = 0.18;
 
@@ -169,7 +203,7 @@ function renderQuote() {
 
   quoteSheet.innerHTML = `
     <header class="quote-head"><div><p class="card-kicker">Quotation</p><h3>Hue &amp; Home</h3><p>Owner: Shabihul Quamar<br>H.No 1623, Ramareddy Building, Ground &amp; 1st Floor, Cross Gayathri School, Vijinapura, North Bangalore, Karnataka 560016<br>Call / WhatsApp: 8521962085</p></div><dl><div><dt>Quote no.</dt><dd>${quoteNo}</dd></div><div><dt>Date</dt><dd>${dateText}</dd></div><div><dt>Valid for</dt><dd>7 days</dd></div></dl></header>
-    <p class="quote-for"><strong>Prepared for:</strong> ${name ? escapeHtml(name) : 'Customer'}${phone ? ` · ${escapeHtml(phone)}` : ''}</p>
+    <p class="quote-for"><strong>Wall shade:</strong> ${escapeHtml(selectedShade)}<br><strong>Prepared for:</strong> ${name ? escapeHtml(name) : 'Customer'}${phone ? ` · ${escapeHtml(phone)}` : ''}</p>
     <div class="quote-table-wrap"><table><thead><tr><th>Item</th><th>Basis</th><th>Amount</th></tr></thead><tbody>
       ${quote.lines.map((line) => `<tr><td>${escapeHtml(line.item)}</td><td>${escapeHtml(line.detail)}</td><td>${inr.format(line.amount)}</td></tr>`).join('')}
     </tbody><tfoot>
@@ -186,6 +220,7 @@ function renderQuote() {
     phone && `Mobile: ${phone}`,
     `Service: ${quote.service.label}`,
     `Area: ${quote.area} sq ft (${quote.condition === 'fresh' ? 'fresh' : 'repaint'})`,
+    `Shade: ${selectedShade}`,
     `Paint: ${quote.product.brand} ${quote.product.name}, ${quote.coats} coats (${quote.litres} L)`,
     `Estimated total (incl. GST): ${inr.format(quote.total)}`
   ].filter(Boolean).join('\n');
