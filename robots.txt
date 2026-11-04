@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arshad7312.github.io/painting-services-website/sitemap.xml
