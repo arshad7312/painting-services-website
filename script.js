@@ -26,7 +26,7 @@ document.querySelectorAll('img[data-photo]').forEach((img) => {
   probe.src = img.dataset.photo;
 });
 
-const SHADE_BRANDS = ['Asian Paints', 'Berger', 'Birla Opus', 'Nerolac', 'Dulux'];
+const SHADE_BRANDS = ['Asian Paints'];
 const SHADE_FAMILIES = {
   Whites: [['Pure White', '#F8F6F0'], ['Warm Ivory', '#F1E6D0'], ['Pearl', '#EEE9DF'], ['Chalk', '#F3F1EA'], ['Cotton', '#FAF3E6'], ['Vanilla Cream', '#F3E7C9']],
   Neutrals: [['Soft Grey', '#D2D3CF'], ['Stone', '#C8C1B4'], ['Dove Grey', '#B9BBBA'], ['Greige', '#CDC2B2'], ['Charcoal Slate', '#4A4F55'], ['Mocha', '#9A7B64']],
@@ -97,82 +97,107 @@ const WHATSAPP_NUMBER = '918521962085';
 const GST_RATE = 0.18;
 const ADVANCE_RATE = 0.35;
 
-// Indicative rates in INR. Owner: update these numbers to match your real price list.
+// Rates in INR per sq ft, material (Asian Paints) included. Owner: edit this price list.
+const FRESH_EXTRA = 5;
 const SERVICES = {
   interior: {
+    defaultQty: 1000,
     label: 'Interior walls & ceiling',
     areaLabel: 'Carpet area (sq ft)',
-    areaHint: 'We estimate paintable wall area as about 3.5× carpet area.',
-    wallFactor: 3.5,
-    labour: { repaint: 11, fresh: 14 },
-    products: [
-      { brand: 'Asian Paints', name: 'Tractor Emulsion', tier: 'Economy', price: 230, coverage: 120 },
-      { brand: 'Asian Paints', name: 'Apcolite Premium Emulsion', tier: 'Premium', price: 420, coverage: 130 },
-      { brand: 'Asian Paints', name: 'Royale Luxury Emulsion', tier: 'Luxury', price: 640, coverage: 140 },
-      { brand: 'Berger', name: 'Easy Clean', tier: 'Premium', price: 400, coverage: 130 },
-      { brand: 'Berger', name: 'Silk', tier: 'Luxury', price: 600, coverage: 140 },
-      { brand: 'Nerolac', name: 'Impressions', tier: 'Premium', price: 450, coverage: 130 },
-      { brand: 'Birla Opus', name: 'One Pure Elegance', tier: 'Luxury', price: 620, coverage: 140 },
-      { brand: 'Dulux', name: 'Velvet Touch', tier: 'Luxury', price: 650, coverage: 140 }
+    areaHint: 'Walls and ceiling are estimated at about 3.5× carpet area. Final measurement at site visit.',
+    areaFactor: 3.5,
+    min: 100,
+    freshExtra: FRESH_EXTRA,
+    options: [
+      { name: 'Tractor Emulsion', tier: 'Economy', repaint: 12 },
+      { name: 'Apcolite Premium Emulsion', tier: 'Premium', repaint: 18 },
+      { name: 'Royale Luxury Emulsion', tier: 'Luxury', repaint: 25 },
+      { name: 'Royale Shyne', tier: 'Luxury', repaint: 32 },
+      { name: 'Royale Aspira', tier: 'Luxury', repaint: 38 },
+      { name: 'Royale Glitz', tier: 'Luxury', repaint: 40 }
     ],
-    addons: [
-      { id: 'putty', label: 'Wall putty (2 coats)', rate: 7.5, basis: 'wall' },
-      { id: 'primer', label: 'Primer coat', rate: 3.5, basis: 'wall' },
-      { id: 'ceiling', label: 'Ceiling painting', rate: 9, basis: 'ceiling' },
-      { id: 'protect', label: 'Furniture covering & post-work cleaning', rate: 1500, basis: 'flat' }
-    ]
+    addons: [{ id: 'iwp', label: 'Interior waterproofing', rate: 22, basis: 'area' }]
   },
   exterior: {
-    label: 'Exterior walls',
-    areaLabel: 'Exterior wall area (sq ft)',
-    areaHint: 'Total outside wall surface to be painted.',
-    wallFactor: 1,
-    labour: { repaint: 13, fresh: 16 },
-    products: [
-      { brand: 'Asian Paints', name: 'Ace Exterior Emulsion', tier: 'Economy', price: 380, coverage: 110 },
-      { brand: 'Asian Paints', name: 'Apex Ultima', tier: 'Luxury', price: 680, coverage: 120 },
-      { brand: 'Berger', name: 'WeatherCoat Long Life', tier: 'Premium', price: 560, coverage: 115 },
-      { brand: 'Nerolac', name: 'Excel Total', tier: 'Premium', price: 520, coverage: 115 }
+    defaultQty: 1500,
+    label: 'Exterior walls & ceiling',
+    areaLabel: 'Exterior surface area (sq ft)',
+    areaHint: 'Total outside wall and ceiling surface to be painted.',
+    areaFactor: 1,
+    min: 100,
+    freshExtra: FRESH_EXTRA,
+    options: [
+      { name: 'Ace Exterior Emulsion', tier: 'Economy', repaint: 17 },
+      { name: 'Apex Exterior Emulsion', tier: 'Premium', repaint: 27 },
+      { name: 'Ultima Protek', tier: 'Luxury', repaint: 37 }
     ],
-    addons: [
-      { id: 'primer', label: 'Exterior primer', rate: 4, basis: 'wall' },
-      { id: 'crack', label: 'Crack filling & surface repair', rate: 3, basis: 'wall' },
-      { id: 'scaffold', label: 'Scaffolding / access', rate: 4, basis: 'wall' }
-    ]
+    addons: []
   },
   woodmetal: {
-    label: 'Wood & metal (doors, grills, railings)',
+    defaultQty: 60,
+    label: 'Wood & metal (door, window, grill) — gloss enamel',
     areaLabel: 'Surface area (sq ft)',
-    areaHint: 'Total door, window, grill or railing surface.',
-    wallFactor: 1,
-    labour: { repaint: 22, fresh: 28 },
-    products: [
-      { brand: 'Asian Paints', name: 'Apcolite Gloss Enamel', tier: 'Premium', price: 520, coverage: 100 },
-      { brand: 'Berger', name: 'Luxol Hi-Gloss Enamel', tier: 'Premium', price: 500, coverage: 100 }
+    areaHint: 'Total surface of the doors, windows or grills to be painted.',
+    areaFactor: 1,
+    min: 10,
+    options: [
+      { name: 'Door', tier: 'Gloss enamel', repaint: 10, fresh: 16 },
+      { name: 'Window', tier: 'Gloss enamel', repaint: 16, fresh: 25 },
+      { name: 'Grill', tier: 'Gloss enamel', repaint: 16, fresh: 22 }
     ],
-    addons: [
-      { id: 'primer', label: 'Wood / metal primer', rate: 5, basis: 'wall' },
-      { id: 'rust', label: 'Rust removal & surface prep', rate: 6, basis: 'wall' }
-    ]
+    addons: [{ id: 'satin', label: 'Satin enamel instead of gloss', rate: 2, basis: 'area' }]
+  },
+  polish: {
+    defaultQty: 50,
+    label: 'Wood polish',
+    areaLabel: 'Wood surface area (sq ft)',
+    areaHint: 'Total wooden surface to be polished.',
+    areaFactor: 1,
+    min: 10,
+    options: [{ name: 'Wood polish', tier: 'Polish', repaint: 55, fresh: 110 }],
+    addons: []
+  },
+  terrace: {
+    defaultQty: 500,
+    label: 'Terrace waterproofing',
+    areaLabel: 'Terrace area (sq ft)',
+    areaHint: 'Damp-proof treatment for the terrace surface.',
+    areaFactor: 1,
+    min: 50,
+    noCondition: true,
+    options: [{ name: 'Damp proof', tier: 'Waterproofing', repaint: 32 }],
+    addons: []
+  },
+  grouting: {
+    defaultQty: 1,
+    label: 'Bathroom tile grouting',
+    areaLabel: 'Number of bathrooms',
+    areaHint: '₹2,000 per bathroom.',
+    unit: 'bathroom',
+    min: 1,
+    noCondition: true,
+    options: [{ name: 'Tile grouting', tier: 'Per bathroom', repaint: 2000 }],
+    addons: []
   }
 };
+const TERRACE_RATE = SERVICES.terrace.options[0].repaint;
+const GROUTING_RATE = SERVICES.grouting.options[0].repaint;
 
 const inr = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
-const rateFmt = (value) => `₹${value}`;
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const whatsappLink = (text) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+const freshRate = (service, option) => option.fresh ?? option.repaint + (service.freshExtra || 0);
 
 const rateGrid = document.querySelector('#rate-grid');
-rateGrid.innerHTML = Object.values(SERVICES).map((service) => `
-  <article class="rate-card">
-    <h3>${escapeHtml(service.label)}</h3>
-    <dl>
-      <div><dt>Repaint labour</dt><dd>${inr.format(service.labour.repaint)}<small>/sq ft</small></dd></div>
-      <div><dt>Fresh surface labour</dt><dd>${inr.format(service.labour.fresh)}<small>/sq ft</small></dd></div>
-    </dl>
-    <p>${escapeHtml(service.areaHint)}</p>
-    <a class="round-link" href="#quote" aria-label="Get a quote for ${escapeHtml(service.label)}">↗</a>
-  </article>`).join('');
+rateGrid.innerHTML = Object.values(SERVICES).map((service) => {
+  const rows = service.options.map((option) => {
+    if (service.unit) return `<div><dt>${escapeHtml(option.name)}</dt><dd>${inr.format(option.repaint)}<small>/bathroom</small></dd></div>`;
+    if (service.noCondition) return `<div><dt>${escapeHtml(option.name)}</dt><dd>${inr.format(option.repaint)}<small>/sq ft</small></dd></div>`;
+    return `<div><dt>${escapeHtml(option.name)}</dt><dd>${inr.format(option.repaint)} <small>repaint</small> · ${inr.format(freshRate(service, option))} <small>fresh</small></dd></div>`;
+  }).join('');
+  const extras = service.addons.map((addon) => `<div><dt>${escapeHtml(addon.label)}</dt><dd>+${inr.format(addon.rate)}<small>/sq ft</small></dd></div>`).join('');
+  return `<article class="rate-card"><h3>${escapeHtml(service.label)}</h3><dl>${rows}${extras}</dl><p>${escapeHtml(service.areaHint)}</p><a class="round-link" href="#quote" aria-label="Get a quote for ${escapeHtml(service.label)}">↗</a></article>`;
+}).join('');
 
 const quoteForm = document.querySelector('#quote-form');
 const serviceSelect = document.querySelector('#q-service');
@@ -181,59 +206,71 @@ const addonsBox = document.querySelector('#q-addons');
 const quoteError = document.querySelector('#q-error');
 const quoteWrap = document.querySelector('#quote-output-wrap');
 const quoteSheet = document.querySelector('#quote-sheet');
+const conditionField = document.querySelector('#q-condition-field');
+const extrasBox = document.querySelector('#q-extras');
 
 serviceSelect.innerHTML = Object.entries(SERVICES).map(([key, service]) => `<option value="${key}">${escapeHtml(service.label)}</option>`).join('');
 
 function renderServiceOptions() {
-  const service = SERVICES[serviceSelect.value];
+  const key = serviceSelect.value;
+  const service = SERVICES[key];
+  const area = quoteForm.elements.area;
   document.querySelector('#q-area-label').textContent = service.areaLabel;
   document.querySelector('#q-area-hint').textContent = service.areaHint;
-  productSelect.innerHTML = service.products.map((product, index) => `<option value="${index}">${escapeHtml(product.brand)} ${escapeHtml(product.name)} — ${escapeHtml(product.tier)} (${inr.format(product.price)}/L)</option>`).join('');
-  addonsBox.innerHTML = service.addons.map((addon) => `<label class="check"><input type="checkbox" name="addon" value="${addon.id}"><span>${escapeHtml(addon.label)}</span><em>${addon.basis === 'flat' ? inr.format(addon.rate) : `${rateFmt(addon.rate)}/sq ft`}</em></label>`).join('');
-  const hint = document.querySelector('#q-product-hint');
-  hint.textContent = 'Paint prices are indicative and may vary with the dealer price on the day of purchase.';
+  area.min = service.min;
+  area.value = service.defaultQty;
+  productSelect.innerHTML = service.options.map((option, index) => {
+    const price = service.unit || service.noCondition ? `${inr.format(option.repaint)}${service.unit ? '/bathroom' : '/sq ft'}` : `${inr.format(option.repaint)}–${inr.format(freshRate(service, option))}/sq ft`;
+    return `<option value="${index}">${escapeHtml(option.name)} — ${escapeHtml(option.tier)} (${price})</option>`;
+  }).join('');
+  document.querySelector('#q-product-label').textContent = key === 'interior' || key === 'exterior' ? 'Paint (Asian Paints, material included)' : 'Type / finish';
+  conditionField.hidden = Boolean(service.noCondition);
+  document.querySelector('#q-addons-wrap').hidden = service.addons.length === 0;
+  addonsBox.innerHTML = service.addons.map((addon) => `<label class="check"><input type="checkbox" name="addon" value="${addon.id}"><span>${escapeHtml(addon.label)}</span><em>+${inr.format(addon.rate)}/sq ft</em></label>`).join('');
+  extrasBox.hidden = key === 'terrace' || key === 'grouting';
 }
 serviceSelect.addEventListener('change', renderServiceOptions);
 renderServiceOptions();
 
 function buildQuote() {
-  const service = SERVICES[serviceSelect.value];
-  const product = service.products[Number(productSelect.value)];
-  const area = Number(quoteForm.elements.area.value);
-  const coats = Number(quoteForm.elements.coats.value);
-  const condition = quoteForm.elements.condition.value;
-  const wallArea = Math.round(area * service.wallFactor);
+  const key = serviceSelect.value;
+  const service = SERVICES[key];
+  const option = service.options[Number(productSelect.value)];
+  const qty = Number(quoteForm.elements.area.value);
+  const condition = service.noCondition ? 'repaint' : quoteForm.elements.condition.value;
+  const sqft = service.unit ? qty : Math.round(qty * service.areaFactor);
+  const rate = condition === 'fresh' ? freshRate(service, option) : option.repaint;
   const selected = service.addons.filter((addon) => quoteForm.querySelector(`input[name="addon"][value="${addon.id}"]`).checked);
-  const ceilingArea = selected.some((addon) => addon.basis === 'ceiling') ? area : 0;
-  const paintArea = wallArea + ceilingArea;
-  const litres = Math.ceil((paintArea * coats) / product.coverage);
+  const stateText = service.noCondition ? '' : condition === 'fresh' ? ' — fresh' : ' — repaint';
 
-  const lines = [
-    { item: `Labour — ${service.label} (${condition === 'fresh' ? 'fresh surface' : 'repaint'})`, detail: `${wallArea} sq ft × ${inr.format(service.labour[condition])}`, amount: wallArea * service.labour[condition] },
-    { item: `Paint — ${product.brand} ${product.name}`, detail: `${litres} L (${coats} coats) × ${inr.format(product.price)}`, amount: litres * product.price }
-  ];
+  const lines = [{
+    item: `${service.label}: ${option.name}${stateText}`,
+    detail: service.unit ? `${sqft} bathroom(s) × ${inr.format(rate)}` : `${sqft} sq ft × ${inr.format(rate)} (material included)`,
+    amount: sqft * rate
+  }];
+  selected.forEach((addon) => lines.push({ item: addon.label, detail: `${sqft} sq ft × ${inr.format(addon.rate)}`, amount: sqft * addon.rate }));
 
-  selected.forEach((addon) => {
-    if (addon.basis === 'flat') lines.push({ item: addon.label, detail: 'Fixed', amount: addon.rate });
-    else if (addon.basis === 'ceiling') lines.push({ item: `Labour — ${addon.label}`, detail: `${area} sq ft × ${rateFmt(addon.rate)}`, amount: area * addon.rate });
-    else lines.push({ item: addon.label, detail: `${wallArea} sq ft × ${rateFmt(addon.rate)}`, amount: Math.round(wallArea * addon.rate) });
-  });
+  const terraceArea = extrasBox.hidden ? 0 : Number(quoteForm.elements.terrace.value) || 0;
+  const bathrooms = extrasBox.hidden ? 0 : Number(quoteForm.elements.bathrooms.value) || 0;
+  if (terraceArea > 0) lines.push({ item: 'Terrace waterproofing (damp proof)', detail: `${terraceArea} sq ft × ${inr.format(TERRACE_RATE)}`, amount: terraceArea * TERRACE_RATE });
+  if (bathrooms > 0) lines.push({ item: 'Bathroom tile grouting', detail: `${bathrooms} bathroom(s) × ${inr.format(GROUTING_RATE)}`, amount: bathrooms * GROUTING_RATE });
 
   const subtotal = lines.reduce((sum, line) => sum + line.amount, 0);
   const gst = Math.round(subtotal * GST_RATE);
   const total = subtotal + gst;
   const advance = Math.round(total * ADVANCE_RATE);
-  return { service, product, area, wallArea, ceilingArea, litres, coats, condition, lines, subtotal, gst, total, advance, balance: total - advance };
+  return { service, option, qty, sqft, condition, lines, subtotal, gst, total, advance, balance: total - advance, terraceArea, bathrooms };
 }
 
 function renderQuote() {
   const name = quoteForm.elements.name.value.trim();
   const phone = quoteForm.elements.phone.value.trim();
   const area = Number(quoteForm.elements.area.value);
+  const minArea = SERVICES[serviceSelect.value].min;
   const phoneValid = phone === '' || /^[6-9][0-9]{9}$/.test(phone);
 
-  if (!Number.isFinite(area) || area < 100 || area > 50000) {
-    quoteError.textContent = 'Please enter an area between 100 and 50,000 sq ft.';
+  if (!Number.isFinite(area) || area < minArea || area > 50000) {
+    quoteError.textContent = `Please enter a value between ${minArea} and 50,000.`;
     return;
   }
   if (!phoneValid) {
@@ -243,13 +280,14 @@ function renderQuote() {
   quoteError.textContent = '';
 
   const quote = buildQuote();
+  const colourCode = quoteForm.elements.colourcode.value.trim();
   const now = new Date();
   const quoteNo = `HH-${now.toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
   const dateText = now.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
   quoteSheet.innerHTML = `
     <header class="quote-head"><div><p class="card-kicker">Quotation</p><h3>Hue &amp; Home</h3><p>Owner: Shabihul Quamar<br>H.No 1623, Ramareddy Building, Ground &amp; 1st Floor, Cross Gayathri School, Vijinapura, North Bangalore, Karnataka 560016<br>Call / WhatsApp: 8521962085</p></div><dl><div><dt>Quote no.</dt><dd>${quoteNo}</dd></div><div><dt>Date</dt><dd>${dateText}</dd></div><div><dt>Valid for</dt><dd>7 days</dd></div></dl></header>
-    <p class="quote-for"><strong>Wall shade:</strong> ${escapeHtml(shadeLabel())}<br><strong>Prepared for:</strong> ${name ? escapeHtml(name) : 'Customer'}${phone ? ` · ${escapeHtml(phone)}` : ''}</p>
+    <p class="quote-for"><strong>Colour:</strong> ${escapeHtml(shadeLabel())}${colourCode ? ` · <strong>Colour code:</strong> ${escapeHtml(colourCode)}` : ''}<br><strong>Prepared for:</strong> ${name ? escapeHtml(name) : 'Customer'}${phone ? ` · ${escapeHtml(phone)}` : ''}</p>
     <div class="quote-table-wrap"><table><thead><tr><th>Item</th><th>Basis</th><th>Amount</th></tr></thead><tbody>
       ${quote.lines.map((line) => `<tr><td>${escapeHtml(line.item)}</td><td>${escapeHtml(line.detail)}</td><td>${inr.format(line.amount)}</td></tr>`).join('')}
     </tbody><tfoot>
@@ -267,9 +305,8 @@ function renderQuote() {
     name && `Name: ${name}`,
     phone && `Mobile: ${phone}`,
     `Service: ${quote.service.label}`,
-    `Area: ${quote.area} sq ft (${quote.condition === 'fresh' ? 'fresh' : 'repaint'})`,
-    `Shade: ${shadeLabel()}`,
-    `Paint: ${quote.product.brand} ${quote.product.name}, ${quote.coats} coats (${quote.litres} L)`,
+    `Details: ${quote.lines.map((line) => `${line.item} (${line.detail})`).join('; ')}`,
+    `Colour: ${shadeLabel()}${colourCode ? `, code ${colourCode}` : ''}`,
     `Estimated total (incl. GST): ${inr.format(quote.total)}`,
     `Advance (35%): ${inr.format(quote.advance)}`
   ].filter(Boolean).join('\n');
